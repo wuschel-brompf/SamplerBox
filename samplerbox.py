@@ -211,7 +211,7 @@ def MidiCallback(message_t, time_stamp):
     elif (messagetype == 11) and (note == 64) and (velocity >= 64):  # 0b1011: control change, sustain pedal on
         sustain = True
     elif (messagetype == 11) and (note == 68):  # 0b1011: control channel, volume
-        globalvolume =  10 ** ((velocity-128-12.0)/20)
+        globalvolume =  velocity * (10 ** ((-2.0)/20))
 
 #########################################
 # LOAD SAMPLES
@@ -244,7 +244,6 @@ def ActuallyLoad():
     global globalvolume, globaltranspose
     playingsounds = []
     samples = {}
-    globalvolume = 10 ** (-12.0/20)  # -12dB default global volume
     globaltranspose = 0
     samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'      # use current folder (containing 0 Saw) if no user media containing samples has been found
     basename = next((f for f in os.listdir(samplesdir) if f.startswith("%d " % preset)), None)      # or next(glob.iglob("blah*"), None)
