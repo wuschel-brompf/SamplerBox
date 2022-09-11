@@ -168,7 +168,7 @@ def AudioCallback(outdata, frame_count, time_info, status):
 def MidiCallback(message_t, time_stamp):
     global playingnotes, sustain, sustainplayingnotes
     global preset
-    global golbalvolume
+    global globalvolume
     # for details on MIDI Protocol see https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message
     
     message = message_t[0]
