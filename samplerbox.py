@@ -168,6 +168,7 @@ def AudioCallback(outdata, frame_count, time_info, status):
 def MidiCallback(message_t, time_stamp):
     global playingnotes, sustain, sustainplayingnotes
     global preset
+    global golbalvolume
     # for details on MIDI Protocol see https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message
     
     message = message_t[0]
@@ -202,13 +203,15 @@ def MidiCallback(message_t, time_stamp):
         print('Program change ' + str(note))
         preset = note
         LoadSamples()
-    elif (messagetype == 11) and (note == 64) and (velocity < 64):  # 0b1011: sustain pedal off
+    elif (messagetype == 11) and (note == 64) and (velocity < 64):  # 0b1011: control change, sustain pedal off
         for n in sustainplayingnotes:
             n.fadeout(50)
         sustainplayingnotes = []
         sustain = False
-    elif (messagetype == 11) and (note == 64) and (velocity >= 64):  # 0b1011: sustain pedal on
+    elif (messagetype == 11) and (note == 64) and (velocity >= 64):  # 0b1011: control change, sustain pedal on
         sustain = True
+    elif (messagetype == 11) and (note == 68):  # 0b1011: control channel, volume
+        globalvolume =  10 ** ((velocity-128-12.0)/20)
 
 #########################################
 # LOAD SAMPLES
