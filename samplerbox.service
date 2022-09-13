@@ -1,0 +1,10 @@
+[Unit]
+Description=SamplerBox
+
+[Service]
+Type=simple
+ExecStart=python3 /home/pi/SamplerBox/samplerbox.py
+WorkingDirectory=/home/pi/SamplerBox/
+
+[Install]
+WantedBy=multi-user.target
